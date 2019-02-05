@@ -1,0 +1,12 @@
+DROP TABLE IF EXISTS product;
+
+CREATE TABLE product (
+                       id INTEGER PRIMARY KEY AUTOINCREMENT,
+                       name TEXT,
+                       price decimal(10,2)
+);
+
+INSERT INTO product (name, price) VALUES ('product1', 100);
+INSERT INTO product (name, price) VALUES ('product2', 200)
+
+select * from product
