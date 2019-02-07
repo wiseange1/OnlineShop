@@ -19,5 +19,13 @@ public class DefaultProductService implements ProductService {
         return productDao.getAll();
     }
 
+    @Override
+    public void deleteById(int id) {
+        productDao.deleteById(id);
+    }
 
+    @Override
+    public void add(Product product) {
+        productDao.add(product);
+    }
 }
