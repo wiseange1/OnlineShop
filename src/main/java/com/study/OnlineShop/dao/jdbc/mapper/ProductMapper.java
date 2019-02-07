@@ -9,7 +9,7 @@ import java.util.List;
 
 public class ProductMapper {
 
-    public static Product mapraw(ResultSet resultset) throws SQLException {
+    public static Product mapRaw(ResultSet resultset) throws SQLException {
         Product product = new Product();
         product.setId(resultset.getInt("id"));
         product.setName(resultset.getString("name"));
@@ -22,7 +22,7 @@ public class ProductMapper {
 
         List<Product> products = new ArrayList<>();
         while (resultSet.next()) {
-            Product product = mapraw(resultSet);
+            Product product = mapRaw(resultSet);
             products.add(product);
         }
         return products;

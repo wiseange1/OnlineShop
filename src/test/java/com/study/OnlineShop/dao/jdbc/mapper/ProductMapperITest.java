@@ -21,7 +21,7 @@ public class ProductMapperITest {
     when(mockResultSet.getString("name")).thenReturn("Test");
     when(mockResultSet.getDouble("price")).thenReturn(100.00);
 
-    Product testProduct = ProductMapper.mapraw(mockResultSet);
+    Product testProduct = ProductMapper.mapRaw(mockResultSet);
 
     assertEquals(1, testProduct.getId());
     assertEquals("Test", testProduct.getName());

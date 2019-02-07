@@ -10,11 +10,10 @@ import java.util.List;
 public class JdbcProductDao implements ProductDao {
 
     private static final String JDBC_CONNECTION = "jdbc:sqlite:C:\\Users\\Tema\\IdeaProjects\\test.db";
- //   private static final ProductMapper PRODUCT_MAPPER = new ProductMapper();
-
     private static final String FIND_ALL_PRODUCTS = "SELECT id, name, price from product;";
 
-    @Override
+    private static final ProductMapper productMapper = new ProductMapper();
+
     public List<Product> getAll() {
         try (Connection connection = getConnection();
             Statement statement = connection.createStatement();
