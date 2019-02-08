@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8"/>
-    <title>Add new product</title>
+    <title>Add user</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 </head>
 <body>
@@ -23,15 +23,16 @@
 </nav>
 
 <div class="container">
-<h1 align="center">Add new product</h1>
-<form action="/products/add" method="POST">
+<h1 align="center">Edit product</h1>
+<form action="/products/edit/" method="POST">
     <div class="form-group">
+        <input type="hidden" name="id" value="${product.id}"/>
         <label for="inputName">name</label>
-        <input type="text" class="form-control" id="inputName" required name="name">
+        <input type="text" class="form-control" id="inputName" required name="name" value="${product.name}">
         <label for="inputPrice">Price</label>
-        <input type="number" class="form-control" id="inputPrice" value="0" name="price">
+        <input type="number" class="form-control" id="inputPrice" pattern="^\d+(?:\.\d{1,2})?$" step=".01" min="0" name="price" value="${product.price}">
         <br>
-        <input type="submit" class="btn btn-primary" value="Add">
+        <input type="submit" class="btn btn-primary" value="Submit">
     </div>
 </form>
 </div>

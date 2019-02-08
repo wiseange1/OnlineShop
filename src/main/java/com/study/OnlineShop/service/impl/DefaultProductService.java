@@ -28,4 +28,14 @@ public class DefaultProductService implements ProductService {
     public void add(Product product) {
         productDao.add(product);
     }
+
+    @Override
+    public void updateById(Product product) {
+        productDao.updateById(product);
+    }
+
+    @Override
+    public Product getById(int id) {
+        return productDao.getById(id);
+    }
 }
