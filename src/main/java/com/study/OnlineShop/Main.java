@@ -1,20 +1,30 @@
 package com.study.OnlineShop;
 
 import com.study.OnlineShop.dao.jdbc.JdbcProductDao;
+import com.study.OnlineShop.dao.jdbc.connection.JDBCConnection;
 import com.study.OnlineShop.service.impl.DefaultProductService;
 import com.study.OnlineShop.web.servlet.*;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 public class Main {
     public static void main(String[] args) throws Exception {
         //configuration
+        Properties properties = new Properties();
+        try (FileInputStream fileInputStream = new FileInputStream("src\\main\\resources\\db.properties");){
+            properties.load(fileInputStream);
+        }
+        JDBCConnection jdbcConnection = new JDBCConnection();
+        jdbcConnection.setProperties(properties);
+
         //dao
-        JdbcProductDao jdbcProductDao = new JdbcProductDao();
+        JdbcProductDao jdbcProductDao = new JdbcProductDao(jdbcConnection);
         List<String> tokens = new ArrayList<>();
 
         //services
