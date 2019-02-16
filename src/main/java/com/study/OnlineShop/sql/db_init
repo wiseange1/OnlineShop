@@ -10,3 +10,15 @@ INSERT INTO product (name, price) VALUES ('product1', 100);
 INSERT INTO product (name, price) VALUES ('product2', 200)
 
 select * from product
+
+DROP TABLE IF EXISTS users;
+
+CREATE TABLE users (
+                       id INTEGER PRIMARY KEY AUTOINCREMENT,
+                       login TEXT,
+                       sole TEXT
+);
+
+INSERT INTO product (name, price) VALUES ('product1', 100);
+
+select * from users;
