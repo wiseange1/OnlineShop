@@ -5,6 +5,7 @@ import com.study.OnlineShop.dao.jdbc.JdbcUserDao;
 import com.study.OnlineShop.dao.jdbc.connection.JDBCConnection;
 import com.study.OnlineShop.service.impl.DefaultProductService;
 import com.study.OnlineShop.service.impl.DefaultUserService;
+import com.study.OnlineShop.web.auth.AuthUtils;
 import com.study.OnlineShop.web.servlet.*;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
@@ -28,7 +29,9 @@ public class Main {
         //dao
         JdbcProductDao jdbcProductDao = new JdbcProductDao(jdbcConnection);
         JdbcUserDao jdbcUserDao = new JdbcUserDao(jdbcConnection);
-        List<String> tokens = new ArrayList<>();
+
+        //auth
+        AuthUtils authUtils = new AuthUtils();
 
         //services
         DefaultProductService defaultProductService = new DefaultProductService();
@@ -40,7 +43,7 @@ public class Main {
         GetAllProductsServlet allProductsServlet = new GetAllProductsServlet();
         allProductsServlet.setProductService(defaultProductService);
 
-        AddProductServlet addProductServlet = new AddProductServlet(tokens);
+        AddProductServlet addProductServlet = new AddProductServlet(authUtils.getTokens());
         addProductServlet.setProductService(defaultProductService);
 
         RemoveProductServlet removeProductServlet = new RemoveProductServlet();
@@ -56,7 +59,8 @@ public class Main {
         context.addServlet(new ServletHolder(removeProductServlet), "/products/remove");
         context.addServlet(new ServletHolder(addProductServlet), "/products/add");
         context.addServlet(new ServletHolder(editProductServlet), "/products/edit/*");
-        context.addServlet(new ServletHolder(new LoginServlet(tokens)), "/login");
+        context.addServlet(new ServletHolder(new LoginServlet(authUtils.getTokens())), "/login");
+        context.addServlet(new ServletHolder(new LogoutServlet(authUtils.getTokens())), "/logout");
 
         Server server = new Server(8080);
         server.setHandler(context);

@@ -1,5 +1,6 @@
 package com.study.OnlineShop.web.servlet;
 
+import com.study.OnlineShop.web.auth.AuthUtils;
 import com.study.OnlineShop.web.template.PageGenerator;
 
 import javax.servlet.ServletException;
@@ -36,8 +37,7 @@ public class LoginServlet extends HttpServlet {
         String password = req.getParameter("password");
         //System.out.println(login + "  " + password);
 
-        String token = UUID.randomUUID().toString();
-        tokens.add(token);
+        String token = AuthUtils.addNewToken();
         Cookie cookie = new Cookie("user-token", token);
         resp.addCookie(cookie);
         resp.sendRedirect("/products");

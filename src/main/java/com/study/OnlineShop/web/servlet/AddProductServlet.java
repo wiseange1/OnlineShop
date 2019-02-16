@@ -2,6 +2,7 @@ package com.study.OnlineShop.web.servlet;
 
 import com.study.OnlineShop.entity.Product;
 import com.study.OnlineShop.service.ProductService;
+import com.study.OnlineShop.web.auth.AuthUtils;
 import com.study.OnlineShop.web.template.PageGenerator;
 
 import javax.servlet.ServletException;
@@ -23,18 +24,7 @@ public class AddProductServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        boolean isAuthorized = false;
-        Cookie[] cookies = req.getCookies();
-        if (cookies!= null) {
-            for (Cookie cookie: cookies){
-                if ("user-token".equals(cookie.getName())) {
-                    if (tokens.contains(cookie.getValue())) {
-                        isAuthorized = true;
-                    }
-                }
-            }
-        }
-        if (isAuthorized) {
+        if (AuthUtils.isTokenValid(req, tokens)) {
             String page = PageGenerator.instance().getPage("add.html", null);
             resp.setStatus(HttpServletResponse.SC_OK);
             resp.setContentType("text/html;charset=utf-8");
