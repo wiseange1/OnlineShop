@@ -3,13 +3,14 @@ package com.study.OnlineShop.web.auth;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
 public class AuthUtils {
 
     //private static List<String> tokens;
-    private static List<String> tokens = new ArrayList<>();
+    private static List<String> tokens = Collections.synchronizedList(new ArrayList<>());
 
     public AuthUtils() {
 

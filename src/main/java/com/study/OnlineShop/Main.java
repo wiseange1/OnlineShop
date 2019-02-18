@@ -5,14 +5,19 @@ import com.study.OnlineShop.dao.jdbc.JdbcUserDao;
 import com.study.OnlineShop.dao.jdbc.connection.JDBCConnection;
 import com.study.OnlineShop.service.impl.DefaultProductService;
 import com.study.OnlineShop.service.impl.DefaultUserService;
+import com.study.OnlineShop.web.auth.AuthFilter;
 import com.study.OnlineShop.web.auth.AuthUtils;
 import com.study.OnlineShop.web.servlet.*;
+import org.eclipse.jetty.server.Dispatcher;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 
+import javax.servlet.DispatcherType;
 import java.io.FileInputStream;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Properties;
 
@@ -59,8 +64,10 @@ public class Main {
         context.addServlet(new ServletHolder(removeProductServlet), "/products/remove");
         context.addServlet(new ServletHolder(addProductServlet), "/products/add");
         context.addServlet(new ServletHolder(editProductServlet), "/products/edit/*");
-        context.addServlet(new ServletHolder(new LoginServlet(authUtils.getTokens())), "/login");
+        context.addServlet(new ServletHolder(new LoginServlet(defaultUserService, authUtils.getTokens())), "/login");
         context.addServlet(new ServletHolder(new LogoutServlet(authUtils.getTokens())), "/logout");
+        context.addFilter(new FilterHolder(new AuthFilter(authUtils.getTokens())), "/products/*", EnumSet.of(DispatcherType.REQUEST,
+                DispatcherType.FORWARD));
 
         Server server = new Server(8080);
         server.setHandler(context);

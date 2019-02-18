@@ -24,14 +24,14 @@ public class AddProductServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        if (AuthUtils.isTokenValid(req, tokens)) {
+   //     if (AuthUtils.isTokenValid(req, tokens)) {
             String page = PageGenerator.instance().getPage("add.html", null);
             resp.setStatus(HttpServletResponse.SC_OK);
             resp.setContentType("text/html;charset=utf-8");
             resp.getWriter().println(page);
-        } else {
-            resp.sendRedirect("/login");
-        }
+ //       } else {
+ //           resp.sendRedirect("/login");
+//        }
     }
 
     @Override
