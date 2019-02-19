@@ -15,11 +15,7 @@ import java.util.List;
 
 public class AddProductServlet extends HttpServlet {
     private ProductService productService;
-    List<String> tokens;
 
-    public AddProductServlet(List<String> tokens) {
-        this.tokens = tokens;
-    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

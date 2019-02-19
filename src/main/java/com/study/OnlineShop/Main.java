@@ -4,6 +4,7 @@ import com.study.OnlineShop.dao.jdbc.JdbcProductDao;
 import com.study.OnlineShop.dao.jdbc.JdbcUserDao;
 import com.study.OnlineShop.dao.jdbc.connection.JDBCConnection;
 import com.study.OnlineShop.service.impl.DefaultProductService;
+import com.study.OnlineShop.service.impl.DefaultSecurityService;
 import com.study.OnlineShop.service.impl.DefaultUserService;
 import com.study.OnlineShop.web.auth.AuthFilter;
 import com.study.OnlineShop.web.auth.AuthUtils;
@@ -43,12 +44,14 @@ public class Main {
         defaultProductService.setProductDao(jdbcProductDao);
         DefaultUserService defaultUserService = new DefaultUserService();
         defaultUserService.setUserDao(jdbcUserDao);
+        DefaultSecurityService defaultSecurityService = new DefaultSecurityService();
+        defaultSecurityService.setUserService(defaultUserService);
 
         //servlets
         GetAllProductsServlet allProductsServlet = new GetAllProductsServlet();
         allProductsServlet.setProductService(defaultProductService);
 
-        AddProductServlet addProductServlet = new AddProductServlet(authUtils.getTokens());
+        AddProductServlet addProductServlet = new AddProductServlet();
         addProductServlet.setProductService(defaultProductService);
 
         RemoveProductServlet removeProductServlet = new RemoveProductServlet();
@@ -64,8 +67,8 @@ public class Main {
         context.addServlet(new ServletHolder(removeProductServlet), "/products/remove");
         context.addServlet(new ServletHolder(addProductServlet), "/products/add");
         context.addServlet(new ServletHolder(editProductServlet), "/products/edit/*");
-        context.addServlet(new ServletHolder(new LoginServlet(defaultUserService, authUtils.getTokens())), "/login");
-        context.addServlet(new ServletHolder(new LogoutServlet(authUtils.getTokens())), "/logout");
+        context.addServlet(new ServletHolder(new LoginServlet(defaultSecurityService)), "/login");
+        context.addServlet(new ServletHolder(new LogoutServlet(defaultSecurityService)), "/logout");
         context.addFilter(new FilterHolder(new AuthFilter(authUtils.getTokens())), "/products/*", EnumSet.of(DispatcherType.REQUEST,
                 DispatcherType.FORWARD));
 
